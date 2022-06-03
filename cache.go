@@ -6,7 +6,6 @@ import (
 )
 
 type ElasticCache interface {
-
 	// GetAndSet key缓存数据的key limitTime 数据存在的有效期，get获取数据的处理函数（如果过期了会删除该key的数据释放内存）。
 	GetAndSet(key string, limitTime time.Duration, get getter) (data interface{})
 	// Delete 删除数据
@@ -105,22 +104,6 @@ func (e *elasticCache) run() {
 
 func (e *elasticCache) Clear() {
 	e.clearCh = make(chan struct{}, 1)
-}
-
-func (e *elasticCache) Set(key string, limitTime time.Duration, handle getter) {
-	e.mu.Lock()
-	defer e.mu.Unlock()
-	data, setCache := handle(key)
-	if setCache {
-		e.caches[key] = &cache{
-			key:       key,
-			Data:      data,
-			getNum:    0,
-			limitTime: limitTime,
-			lastTime:  time.Now(),
-		}
-	}
-
 }
 
 func (e *elasticCache) Delete(key string) {

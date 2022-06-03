@@ -1,17 +1,20 @@
-package ElasticCache
+package example
 
-import "time"
+import (
+	"github.com/liu-cn/ElasticCache"
+	"time"
+)
 
 var service articleService
 
 func init() {
 	service = articleService{
-		cache: New(time.Second),
+		cache: ElasticCache.New(time.Second),
 	}
 }
 
 type articleService struct {
-	cache ElasticCache
+	cache ElasticCache.ElasticCache
 }
 
 type articles struct {
