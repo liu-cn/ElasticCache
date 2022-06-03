@@ -15,6 +15,7 @@ type ElasticCache interface {
 	Clear()
 }
 
+// New clearLimit表示多久进行一次过期数据清理。
 func New(clearLimit time.Duration) ElasticCache {
 	e := &elasticCache{
 		mu:         &sync.Mutex{},
